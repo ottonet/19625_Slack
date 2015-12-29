@@ -1,0 +1,111 @@
+# -*- coding: iso8859-1 -*-
+## -----------------------------------------------------
+## Slack   ### V1.00
+##
+## created at: 2015-12-29 19:11
+## -----------------------------------------------------
+## Copyright © 2015, Jean-Paul Otto, All rights reserved.
+##
+## This program is free software; you can redistribute it and/or modify it under the terms
+## of the GNU General Public License as published by the Free Software Foundation; either
+## version 3 of the License, or (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+## without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+## See the GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License along with this program;
+## if not, see <http://www.gnu.de/documents/gpl-3.0.de.html>.
+
+## -- 
+## -- <h1>19625_Slack.hsl</h1>
+## -- <p>Gira Homeserver to Slack Webhook Logic module</p>
+## -- <p>Ever wanted to receive notifications from your Gira Homeserver in Slack? Look no further! This logic module does just that.</p>
+## -- <p>The possibilities are endless. Get notified if your front door opens, or if an alarm is triggered, or if the temperature in your house is to low. You name it, you've got it!</p>
+## -- <h2>Installation</h2>
+## -- <p>Just copy 19625_Slack_Vx.xx.hsl to the logic folder of your HomeServer and (re)start HomeServer Experte. You'll find the module in the folder Smarterliving.</p>
+## -- <h2>Usage</h2>
+## -- <p>Create two new HS Internal <em>14-Byte text</em> Objects:</p>
+## -- <ul>
+## -- <li>Slack Message</li>
+## -- <li>Slack Status</li>
+## -- </ul>
+## -- <p>Using the Graphic Logic Editor, create a new worksheet and add the Smarterliving\Slack logic element to the worksheet.</p>
+## -- <h4>Input 1 - Slack Webhook URL</h4>
+## -- <p>Copy/Paste your Slack Webhook URL in this field. This URL looks like:
+## -- <code>https://hooks.slack.com/services/T025XXXX/B0XXXXXXXX/tKJxxxxxxxxxxx</code></p>
+## -- <h4>Input 2 - Message</h4>
+## -- <p>Connect this input with the HS Internal Communication Object <code>Slack Message</code> that you've created earlier</p>
+## -- <h4>Input 3 - Channel</h4>
+## -- <p><em>Optional:</em> Incoming Slack webhooks have a default channel, but it can be overridden using this input.</p>
+## -- <h4>Input 4 - Username</h4>
+## -- <p><em>Optional:</em> While 19625_Slack defaults to <code>Gira HomeServer</code>, you can use this input to override this setting and assign another name to your Slackbot.</p>
+## -- <h4>Input 5 - Icon_Emoji</h4>
+## -- <p><em>Optional:</em> You can customize the icon of your Incoming Webhook using one of the Slack Icons, like <code>:ghost:</code>.</p>
+## -- <h4>Input 6 - Icon_URL</h4>
+## -- <p><em>Optional:</em> 19625_Slack defaults to a Gira Logo file, currently stored at <a href="https://s3.eu-central-1.amazonaws.com/gira.homeserver/gira_icon175x175-1.png">Amazon</a>. Should you wish to use your own Icon, upload your graphic file to a publicly accessible website and enter it's URL in this input field.</p>
+## -- <h4>Output 1 - Status</h4>
+## -- <p>Currently 19625_Slack does not output a status, but at least one output is required by the HomeServer. Connect this output to the HS Internal Communication Object <code>Slack Status</code> that you've created earlier.</p>
+## -- <p>You are now ready to start using 19625_Slack! Using any of the supported means to set a value to a Communication Object will send your message to Slack right away.</p>
+## -- <h2>Files Included</h2>
+## -- <ul>
+## -- <li>19625_Slack_Vx.xx.hsl - HomeServer Logic file. Copy this to your logic folder.</li>
+## -- <li>19625_Slack.py - Source in Python</li>
+## -- <li>log19625.html - Helpfile. Copy this to html\de or html\en</li>
+## -- <li>LICENSE - GNU v3 Public License</li>
+## -- <li>LogikGen.py - KNX-User-Forum Logik Tester, very useful tool if you want to debug logic modules. Used by test.sh</li>
+## -- <li>test.sh - simple script that compiles the source and starts LogikGen for debugging.</li>
+## -- <li>README.md - this file</li>
+## -- </ul>
+## -- <h2>Support</h2>
+## -- <p>Non whatsoever. Feel free to raise an issue on Github though and/or ask for help at <a href="http://knx-user-forum.de">KNX-User-Forum</a>.</p>
+## -- <p>The module was tested and runs succesfully on a HomeServer 4 with Experte 4.4 (4.4.0.151203R)</p>
+## -- <h2>Credits</h2>
+## -- <p>Credits where credits are due!</p>
+## -- <p>Out of the box a Gira HomeServer can do many things, however connecting to Slack, which requires the use of well established standards like HTTPS, POST and JSON is a step to far for a Gira HomeServer.</p>
+## -- <p>Luckily some fine folks at the German <a href="http://knx-user-forum.de">KNX User Forum</a> have found a way to extend the HomeServer logic modules, which are written in a subset of the Python language, enabling developers to use almost all of the full power of the Python language and it's built-in modules like json, urllib2 etc.</p>
+## -- <p>This logic module would not be possible without their efforts.</p>
+## -- <h2>Roadmap</h2>
+## -- <p>Oh man, wouldn't it be nice if you could also send commands back to your HomeServer using Slack?</p>
+## -- <p>While I'm very positive that this is possible, my limited knowledge of Python and time constraints currently prevent me from pursuing this feature in the near future.</p>
+## -- <p>However, as this is open source and this module is avaible on <a href="https://github.com/ottonet/19625_Slack">Github</a> feel free to issue a PR if you have the time and knowledge to add this feature!</p>
+## -- 
+## -- 
+
+#5000|"Text"|Remanent(1/0)|Anz.Eingänge|.n.|Anzahl Ausgänge|.n.|.n.
+#5001|Anzahl Eingänge|Ausgänge|Offset|Speicher|Berechnung bei Start
+#5002|Index Eingang|Default Wert|0=numerisch 1=alphanummerisch
+#5003|Speicher|Initwert|Remanent
+#5004|ausgang|Initwert|runden binär (0/1)|typ (1-send/2-sbc)|0=numerisch 1=alphanummerisch
+#5012|abbruch bei bed. (0/1)|bedingung|formel|zeit|pin-ausgang|pin-offset|pin-speicher|pin-neg.ausgang
+
+5000|"Smarterliving\Slack_V1.00"|0|6|"Slack Webhook URL"|"Message"|"Channel"|"Username"|"Icon_Emoji"|"Icon_URL"|1|"Status"
+
+5001|6|1|0|1|1
+
+# EN[x]
+5002|1|""|1 #* Slack Webhook URL
+5002|2|""|1 #* Slack Message
+5002|3|""|1 #* Slack Channel
+5002|4|"Gira Homeserver"|1 #* Slack Username
+5002|5|""|1 #* Slack Icon Emoji
+5002|6|"https://s3.eu-central-1.amazonaws.com/gira.homeserver/gira_icon175x175-1.png"|1 #* Slack Icon URL
+
+# Speicher
+5003|1||0 #* Class storage
+
+# Ausgänge
+5004|1|""|0|1|1 #* Status
+
+#################################################
+
+5012|0|"EI"|"eval(compile(__import__('base64').decodestring('CmlmIEVJID09IDE6CiAgICBnbG9iYWwgc29ja2V0CiAgICBpbXBvcnQgc29ja2V0CiAgICBpZiBub3QgaGFzYXR0cihzb2NrZXQsIl9oc19kbnNyZXNvbHZlciIpOgogICAgICAgIHNvY2tldC5fc29ja2V0X2dldGFkZHJpbmZvID0gc29ja2V0LmdldGFkZHJpbmZvCiAgICAgICAgc29ja2V0Ll9oc19kbnNyZXNvbHZlciA9IHNlbGYuTUMuRE5TUmVzb2x2ZXIuZ2V0SG9zdElQCiAgICAgICAgZGVmIF9oc2dldGFkZHJpbmZvKGhvc3QsIHBvcnQsIGZhbWlseT0wLCBzb2NrdHlwZT0wLCBwcm90bz0wLCBmbGFncz0wKToKICAgICAgICAgICAgcmV0dXJuIHNvY2tldC5fc29ja2V0X2dldGFkZHJpbmZvKHNvY2tldC5faHNfZG5zcmVzb2x2ZXIoaG9zdCkscG9ydCwgZmFtaWx5LHNvY2t0eXBlLHByb3RvLGZsYWdzKQogICAgICAgIHNvY2tldC5nZXRhZGRyaW5mbyA9IF9oc2dldGFkZHJpbmZvCiAgICBjbGFzcyBzbGFja19tZXNzYWdlKG9iamVjdCk6CiAgICAgICAgZGVmIF9faW5pdF9fKHNlbGYsIGxvY2FsKToKICAgICAgICAgICAgRU4gPSBsb2NhbC5nZXQoIkVOIikKICAgICAgICAgICAgc2VsZi5jdXN0b21pemF0aW9ucyA9IHNlbGYuX2N1c3RvbShFTlszXSwgRU5bNF0sIEVOWzVdLCBFTls2XSkKICAgICAgICAgICAgc2VsZi51cmwgPSBFTlsxXQogICAgICAgIGRlZiBfY3VzdG9tKHNlbGYsIF9jaGFubmVsLCBfdXNlcm5hbWUsIF9pY29uZW1vamksIF9pY29udXJsKToKICAgICAgICAgICAgY3VzdG9taXphdGlvbnMgPSB7fQogICAgICAgICAgICBpZiBfY2hhbm5lbDoKICAgICAgICAgICAgICAgIGN1c3RvbWl6YXRpb25zLnVwZGF0ZSh7J2NoYW5uZWwnOiBfY2hhbm5lbH0pCiAgICAgICAgICAgIGlmIF91c2VybmFtZToKICAgICAgICAgICAgICAgIGN1c3RvbWl6YXRpb25zLnVwZGF0ZSh7J3VzZXJuYW1lJzogX3VzZXJuYW1lfSkKICAgICAgICAgICAgaWYgX2ljb25lbW9qaToKICAgICAgICAgICAgICAgIGN1c3RvbWl6YXRpb25zLnVwZGF0ZSh7J2ljb25fZW1vamknOiBfaWNvbmVtb2ppfSkKICAgICAgICAgICAgaWYgX2ljb251cmw6CiAgICAgICAgICAgICAgICBjdXN0b21pemF0aW9ucy51cGRhdGUoeydpY29uX3VybCc6IF9pY29udXJsfSkKICAgICAgICAgICAgcmV0dXJuIGN1c3RvbWl6YXRpb25zCiAgICAgICAgZGVmIHNlbmRtc2coc2VsZiwgX21zZyk6CiAgICAgICAgICAgIGltcG9ydCBqc29uLHVybGxpYjIKICAgICAgICAgICAgbXNnID0geyd0ZXh0JzogX21zZ30KICAgICAgICAgICAgbXNnLnVwZGF0ZShzZWxmLmN1c3RvbWl6YXRpb25zKQogICAgICAgICAgICByZXEgPSB1cmxsaWIyLlJlcXVlc3Qoc2VsZi51cmwsCiAgICAgICAgICAgICAgICBoZWFkZXJzID0gewogICAgICAgICAgICAgICAgICAgICJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24vanNvbiIsCiAgICAgICAgICAgICAgICAgICAgIkFjY2VwdCI6ICIqLyoiLAogICAgICAgICAgICAgICAgICAgICJVc2VyLUFnZW50IjogJ0dpcmEgSG9tZVNlcnZlciBTbGFjayAoMTk2MjUpIFZlci4gVjEuMDAnLAogICAgICAgICAgICAgICAgfSwgZGF0YSA9IGpzb24uZHVtcHMobXNnKSkKICAgICAgICAgICAgcmVzcG9uc2UgPSB1cmxsaWIyLnVybG9wZW4ocmVxKQo='),'<19625_Slack>','exec'))"|""|0|0|0|0
+
+
+## Class on SN1
+5012|1|"EI"|"slack_message(locals())"|""|0|0|1|0
+
+## Send the actual Message
+5012|0|"EC[2] and len(EN[2])>0"|"SN[1].sendmsg(EN[2])"|""|0|0|0|0
+
+
