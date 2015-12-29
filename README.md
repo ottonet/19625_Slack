@@ -19,7 +19,7 @@ Using the Graphic Logic Editor, create a new worksheet and add the Smarterliving
 
 #### Input 1 - Slack Webhook URL
 Copy/Paste your Slack Webhook URL in this field. This URL looks like: 
-```https://hooks.slack.com/services/T025XXXX/B0XXXXXXXX/tKJxxxxxxxxxxx```
+``` https://hooks.slack.com/services/T025XXXX/B0XXXXXXXX/tKJxxxxxxxxxxx ```
 
 #### Input 2 - Message
 Connect this input with the HS Internal Communication Object ```Slack Message``` that you've created earlier
@@ -73,4 +73,4 @@ Oh man, wouldn't it be nice if you could also send commands back to your HomeSer
 
 While I'm very positive that this is possible, my limited knowledge of Python and time constraints currently prevent me from pursuing this feature in the near future. 
 
-However, as this is open source and this module is avaible on [Github](https://github.com/ottonet/19625_Slack) feel free to issue a PR if you have the time and knowledge to add this feature! 
+However, as this is open source and this module is available on [Github](https://github.com/ottonet/19625_Slack) feel free to issue a PR if you have the time and knowledge to add this feature! 

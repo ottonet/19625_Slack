@@ -102,7 +102,7 @@ LOGIKDESC="""
 <h2>Roadmap</h2>
 <p>Oh man, wouldn't it be nice if you could also send commands back to your HomeServer using Slack?</p>
 <p>While I'm very positive that this is possible, my limited knowledge of Python and time constraints currently prevent me from pursuing this feature in the near future.</p>
-<p>However, as this is open source and this module is avaible on <a href="https://github.com/ottonet/19625_Slack">Github</a> feel free to issue a PR if you have the time and knowledge to add this feature!</p>
+<p>However, as this is open source and this module is available on <a href="https://github.com/ottonet/19625_Slack">Github</a> feel free to issue a PR if you have the time and knowledge to add this feature!</p>
 
 """
 VERSION="V1.00"
