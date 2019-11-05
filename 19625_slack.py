@@ -2,7 +2,7 @@
 ## -----------------------------------------------------
 ## Logik-Generator  V1.5
 ## -----------------------------------------------------
-## Copyright © 2012, knx-user-forum e.V, All rights reserved.
+## Copyright ï¿½ 2012, knx-user-forum e.V, All rights reserved.
 ##
 ## This program is free software; you can redistribute it and/or modify it under the terms
 ## of the GNU General Public License as published by the Free Software Foundation; either
@@ -105,21 +105,21 @@ LOGIKDESC="""
 <p>However, as this is open source and this module is available on <a href="https://github.com/ottonet/19625_Slack">Github</a> feel free to issue a PR if you have the time and knowledge to add this feature!</p>
 
 """
-VERSION="V1.00"
+VERSION="V1.01"
 
 
-## Bedingung wann die kompilierte Zeile ausgeführt werden soll
+## Bedingung wann die kompilierte Zeile ausgefï¿½hrt werden soll
 BEDINGUNG="EI"
 ## Formel die in den Zeitspeicher geschrieben werden soll
 ZEITFORMEL=""
 ## Nummer des zu verwenden Zeitspeichers
 ZEITSPEICHER="0"
 
-## AUF True setzen um Binären Code zu erstellen
+## AUF True setzen um Binï¿½ren Code zu erstellen
 doByteCode=False
 #doByteCode=True
 
-## Base64Code über SN[x] cachen
+## Base64Code ï¿½ber SN[x] cachen
 doCache=False
 
 ## Doku erstellen Ja/Nein
@@ -138,7 +138,7 @@ LOGIK = '''# -*- coding: iso8859-1 -*-
 ##
 ## created at: '''+time.strftime("%Y-%m-%d %H:%M")+'''
 ## -----------------------------------------------------
-## Copyright © '''+ time.strftime("%Y") + ''', Jean-Paul Otto, All rights reserved.
+## Copyright ï¿½ '''+ time.strftime("%Y") + ''', Jean-Paul Otto, All rights reserved.
 ##
 ## This program is free software; you can redistribute it and/or modify it under the terms
 ## of the GNU General Public License as published by the Free Software Foundation; either
@@ -153,11 +153,11 @@ LOGIK = '''# -*- coding: iso8859-1 -*-
 
 ## -- ''' +re.sub("\n","\n## -- ",LOGIKDESC)+ '''
 
-#5000|"Text"|Remanent(1/0)|Anz.Eingänge|.n.|Anzahl Ausgänge|.n.|.n.
-#5001|Anzahl Eingänge|Ausgänge|Offset|Speicher|Berechnung bei Start
+#5000|"Text"|Remanent(1/0)|Anz.Eingï¿½nge|.n.|Anzahl Ausgï¿½nge|.n.|.n.
+#5001|Anzahl Eingï¿½nge|Ausgï¿½nge|Offset|Speicher|Berechnung bei Start
 #5002|Index Eingang|Default Wert|0=numerisch 1=alphanummerisch
 #5003|Speicher|Initwert|Remanent
-#5004|ausgang|Initwert|runden binär (0/1)|typ (1-send/2-sbc)|0=numerisch 1=alphanummerisch
+#5004|ausgang|Initwert|runden binï¿½r (0/1)|typ (1-send/2-sbc)|0=numerisch 1=alphanummerisch
 #5012|abbruch bei bed. (0/1)|bedingung|formel|zeit|pin-ausgang|pin-offset|pin-speicher|pin-neg.ausgang
 
 5000|"'''+LOGIKCAT+'''\\'''+LOGIKNAME+'''_'''+VERSION+'''"|0|6|"Slack Webhook URL"|"Message"|"Channel"|"Username"|"Icon_Emoji"|"Icon_URL"|1|"Status"
@@ -175,7 +175,7 @@ LOGIK = '''# -*- coding: iso8859-1 -*-
 # Speicher
 5003|1||0 #* Class storage
 
-# Ausgänge
+# Ausgï¿½nge
 5004|1|""|0|1|1 #* Status
 
 #################################################
@@ -232,7 +232,9 @@ if EI == 1:
 
         ## Send Message Function
         def sendmsg(self, _msg):
-            import json,urllib2
+            import json,urllib2,ssl
+
+            ssl._create_default_https_context = ssl._create_unverified_context
 
             msg = {'text': _msg}
             msg.update(self.customizations)
@@ -518,7 +520,7 @@ def symbolize(LOGIK,code):
               isunique=False
           except KeyError:
               pass
-          ## überprüft auch die alternativen Varianten
+          ## ï¿½berprï¿½ft auch die alternativen Varianten
           if re.match("[ACN]",i[2][-1:]):
               try:
                   type(symbols[i[2][:-1]])
@@ -551,7 +553,7 @@ for codepart in code:
     if codepart[0]==0 or codepart[0]==3:
         commentcode.append("##########################\n###### Quelltext: ########\n##########################"+"\n##".join(codepart[2].split("\n"))+"\n")
     #else:
-    #    commentcode.append("#"+codepart[2].split("\n")[1]+"\n################################\n## Quelltext nicht Öffentlich ##\n################################")
+    #    commentcode.append("#"+codepart[2].split("\n")[1]+"\n################################\n## Quelltext nicht ï¿½ffentlich ##\n################################")
 
 
 NLOGIK,postlogik = symbolize(LOGIK,postlogik)
@@ -791,7 +793,7 @@ if debug and not livedebug:
       print """
 ###############################################
 ### !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ###
-### !!!ACHTUNG: sehr lange Ausfürungszeit!! ###
+### !!!ACHTUNG: sehr lange Ausfï¿½rungszeit!! ###
 ### !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ###
 ###############################################
 """
@@ -819,7 +821,7 @@ if livedebug:
     sock.close()
 
 if doSend:
-    ## Das auslösen über den Debug verhindern
+    ## Das auslï¿½sen ï¿½ber den Debug verhindern
     sendVars="EC["+str(ANZIN+1)+"]=0\n"+sendVars
     sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
     sock.connect((livehost,liveport))
@@ -877,8 +879,8 @@ Neuberechnung beim Start: """+CALCSTART+"""
 Baustein ist remanent: """+LOGIKREMANT+"""
 Interne Bezeichnung: """+LOGIKID+"""
 Kategorie: '"""+LOGIKCAT+"""'
-Anzahl Eingänge: """+str(ANZIN)+"""   """+repr(EN)+"""
-Anzahl Ausgänge: """+str(ANZOUT)+"""  """+repr(AN)+"""
+Anzahl Eingï¿½nge: """+str(ANZIN)+"""   """+repr(EN)+"""
+Anzahl Ausgï¿½nge: """+str(ANZOUT)+"""  """+repr(AN)+"""
 Interne Speicher: """+str(ANZSP)+"""  """+repr(SN)+"""
 """
 
